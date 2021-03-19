@@ -1,0 +1,11 @@
+---
+tower_GUID: "639e"
+osp_GUID: "3838"
+osp_DOMAIN: "dynamic.opentlc.com"
+opentlc_login: "lara.cancela-atos.net"
+path_to_opentlc_key: "/root/.ssh/mykey.pem" 
+param_repo_base: "http://www.opentlc.com/download/ansible_bootcamp"
+opentlc_password: "LaraA01." 
+REGION_NAME: "us-east-1"
+EMAIL: "lara.cancela@atos.net"
+github_repo: "https://github.com/mafalda99laracga/nextgen_ansible_advanced_homework.git"

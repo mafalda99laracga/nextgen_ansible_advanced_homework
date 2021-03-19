@@ -1,5 +1,7 @@
 - hosts: localhost
   gather_facts: false 
   become: yes
+  vars_files:
+    - vars/homework_lab.yml
   roles:
     - config-tower
