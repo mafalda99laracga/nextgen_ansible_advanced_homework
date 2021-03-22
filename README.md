@@ -139,6 +139,5 @@ BSD
 Author Information
 ------------------
 Lara Cancela - PaaS-DevOps/CICD Specialist
-
 lara.cancela@atos.net
 
