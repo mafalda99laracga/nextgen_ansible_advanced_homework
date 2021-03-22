@@ -114,12 +114,22 @@ pip freeze -> to check Python versions
 
 Provision PROD Environment
 ----------------
-[TO COMPLETE]
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- Before launch "aws_provision.yml" Play, you must run the following commands to use order_svc.sh script
+against CloudForms (opentlc)
+```
+$ mkdir ~/bin
+$ wget http://www.opentlc.com/download/ansible_bootcamp/scripts/common.sh
+$ wget http://www.opentlc.com/download/ansible_bootcamp/scripts/jq-linux64 -O ~/bin/jq
+$ wget http://www.opentlc.com/download/ansible_bootcamp/scripts/order_svc.sh
+$ chmod +x order_svc.sh ~/bin/jq common.sh
+
+$ touch credential.rc
+$ vi credential.rc -> OPENTCL environment variables
+$ source credential.rc ;  ./order_svc.sh -y -c 'OPENTLC Automation' -i 'Ansible Advanced - Three Tier App' -t 1 -d 'dialog_expiration=7;region=emea;nodes=1;dialog_runtime=8;notes=Training - As part of course'
+```
+- Then you can launch Ansible Tower "01_Provision Prod Env" and the other templates for PRO environment
+
 
 License
 -------
