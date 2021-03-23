@@ -114,6 +114,7 @@ export OS_CLOUD=openstack -> to test OS CLI
 ansible localhost -m os_auth
 ansible localhost -m os_user_info
 ```
+- NOTE. These previous OSP steps for workstation is launched with setup-workstation role using site-setup-prereqs.yaml Play from control machine.
 - Finally, prepare your workstation for ssh (Lab 09_01)
 ```
 cd ~/.ssh
