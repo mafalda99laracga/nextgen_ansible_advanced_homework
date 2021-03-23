@@ -55,6 +55,7 @@ $ cd nextgen_ansible_advanced_homework
 ```
 $ source ~/labrc
 ```
+- You must copy the OPENTLC key to the control host. The OPENTLC key is the private key that you use to connect to the lab environments from your laptop.
 
 -   Deploy Red Hat Ansible Training Environment
 ```
