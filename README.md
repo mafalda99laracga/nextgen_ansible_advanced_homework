@@ -71,6 +71,8 @@ $ ssh -i /root/.ssh/openstack.pem cloud-user@workstation-${OSP_GUID}.${OSP_DOMAI
 $ exit
 ```
 - From your web browser, connect to tower1.${TOWER_GUID}.example.opentlc.com to verify that the isolated node is operational. Navigate to Instance Groups from the side panel and select osp.
+![imagen](https://user-images.githubusercontent.com/74468683/112119327-90d6ad00-8bbd-11eb-9382-db1a59c30877.png)
+
 - Update Ansible Tower WebUI admin password. Reset r3dh4t1! as admin password after sign-in using password provided in email. Update Ansible Tower admin password in tower-cli config.
 ```
 cat ~/.tower_cli.cfg
