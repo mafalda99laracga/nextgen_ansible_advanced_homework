@@ -108,6 +108,9 @@ touch clouds.yaml
 vi clouds.yaml -> From http://horizon-XXXX.dynamic.opentlc.com/dashboard/project/api_access with password
 ansible localhost -m os_auth -a cloud=openstack -> to check authentication
 
+export OS_CLOUD=openstack -> to test OS CLI
+ansible localhost -m os_auth
+ansible localhost -m os_user_info
 ```
 - Then launch "02_Provision QA Env" Ansible Tower template, which provisions OSP Instances (frontend, db, app1,app2)
 
