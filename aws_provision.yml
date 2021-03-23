@@ -45,7 +45,7 @@
 
     # Using this script will always deploy environments in the us-east-1 region.
     - name: order 3 tier app service on opentlc
-      shell: source /root/credential.rc; ./order_svc.sh -y -c 'OPENTLC Automation' -i 'Ansible Advanced - Three Tier App' -t 1 -d 'dialog_expiration=7;region=emea;nodes=1;dialog_runtime=8;notes=Training - As part of course'
+      shell: source /root/credential.rc; ./order_svc.sh -y -c 'OPENTLC Automation' -i 'Ansible Advanced - Three Tier App' -t 1 -d 'dialog_expiration=7;region=na;nodes=1;dialog_runtime=8;notes=Training - As part of course'
       args:
         chdir: /root
 
