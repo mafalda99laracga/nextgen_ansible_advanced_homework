@@ -61,7 +61,7 @@ $ source ~/labrc
 $ mv ~/ansible-tower-setup-*/ ~/ansible-tower-setup-latest
 $ cp /etc/ansible/hosts ~/ansible-tower-setup-latest/inventory
 $ chmod 0400 /root/.ssh/openstack.pem
-
+$ cat hosts -> Check 'workstation' host with your specific GUID value
 $ ansible-playbook site-setup-prereqs.yaml -k
 ```
 
