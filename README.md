@@ -99,7 +99,7 @@ Sample Output
 python3 -m venv ~/openstack-venv
 source ~/openstack-venv/bin/activate
 pip install openstacksdk==0.12.0 ansible==2.9.10 cryptography==2.9.2 (editado) 
-pip install python-openstackclient==4.0.0
+pip install python-openstackclient==4.0.0 selinux
 pip freeze -> to check Python versions
 ```
 - Then launch "02_Provision QA Env" Ansible Tower template, which provisions OSP Instances (frontend, db, app1,app2)
