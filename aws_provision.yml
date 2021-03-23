@@ -1,6 +1,6 @@
 ---
 - name: Provision 3 tier app on AWS for PROD env
-  hosts: tower     # workstation
+  hosts: workstation
   become: true
   gather_facts: false
   tasks:
