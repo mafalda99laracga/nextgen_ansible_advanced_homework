@@ -2,19 +2,19 @@
 
 - name: Install Packages needed for load balancer setup
   yum:
-    name: "{{__lb_tier_packages}}"
+    name: "{{ lb_tier_packages }}"
     state: latest
 
 - name: Create haproxy configuration file
   template:
     src: haproxy.cfg.j2
-    dest: "{{__lb_tier_haproxy_config_file_path}}"
+    dest: "{{ lb_tier_haproxy_config_file_path }}"
   notify:
     - restart haproxy
 
 - name: Start and enable haproxy service
   service:
-    name: "{{__lb_tier_haproxy_service_name}}"
+    name: "{{ lb_tier_haproxy_service_name }}"
     state: started
     enabled: true
 ...
