@@ -112,6 +112,21 @@ export OS_CLOUD=openstack -> to test OS CLI
 ansible localhost -m os_auth
 ansible localhost -m os_user_info
 ```
+- Finally, prepare your workstation for ssh (Lab 09_01)
+```
+cd ~/.ssh
+curl -o openstack.pem http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pem
+cat << EOF  > ~/.ssh/config
+Host *
+  User cloud-user
+  IdentityFile ~/.ssh/openstack.pem
+  ControlMaster auto
+  ControlPath /tmp/%h-%r
+  ControlPersist 5m
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+EOF
+```
 - Then launch "02_Provision QA Env" Ansible Tower template, which provisions OSP Instances (frontend, db, app1,app2)
 
 - In this point, you can test "04_3tier app deployment on QA Env" Ansible Tower template, which setups front-end load balancer tier, application servers tier and DB tier, using "site-3tier-app.yml" Play with these roles:
