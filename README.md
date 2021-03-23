@@ -94,13 +94,20 @@ Sample Output
 -r--------. 1 root root 1679 Mar 19 08:23 openstack.pem
 -r--r-----. 1 root root  381 Mar 19 08:23 openstack.pub
 ```
-- Then review Final Lab pre-requisites as Python3 OSP libraries for first Ansible Tower template "02_Provision QA Env" which launches "site-osp-instances.yml" Play using "osp-servers" role
+- Then review Final Lab pre-requisites as Python3 OSP libraries for first Ansible Tower template "02_Provision QA Env" which launches "site-osp-instances.yml" Play using "osp-servers" role. This is, connect to OSP workstation and prepare the machine to run OSP commands (Lab 08_01)
 ```
 python3 -m venv ~/openstack-venv
 source ~/openstack-venv/bin/activate
 pip install openstacksdk==0.12.0 ansible==2.9.10 cryptography==2.9.2 (editado) 
 pip install python-openstackclient==4.0.0 selinux
 pip freeze -> to check Python versions
+
+mkdir -p /etc/openstack
+cd /etc/openstack/
+touch clouds.yaml
+vi clouds.yaml -> From http://horizon-XXXX.dynamic.opentlc.com/dashboard/project/api_access with password
+ansible localhost -m os_auth -a cloud=openstack -> to check authentication
+
 ```
 - Then launch "02_Provision QA Env" Ansible Tower template, which provisions OSP Instances (frontend, db, app1,app2)
 
