@@ -1,1 +1,17 @@
-payload: haproxy
+---
+__lb_tier_packages:
+  - haproxy
+
+__lb_tier_haproxy_config_file_path: /etc/haproxy/haproxy.cfg
+
+__lb_tier_haproxy_service_name: haproxy
+
+...---
+__lb_tier_packages:
+  - haproxy
+
+__lb_tier_haproxy_config_file_path: /etc/haproxy/haproxy.cfg
+
+__lb_tier_haproxy_service_name: haproxy
+
+...
