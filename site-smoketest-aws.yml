@@ -1,16 +1,20 @@
+---
 - hosts: frontends
   gather_facts: false
+
   tasks:
-  - name: Curl website
-    uri:
-      url: "http://localhost"
-      return_content: yes
-      status_code: 200
-    register: webpage
-        
-  - debug: var=webpage.content
+    - name: Test app deployment locally
+      uri:
+        url: http://localhost
+        return_content: yes
+        status_code: 200
+      register: webpage
+      until: webpage.status == 200
+      retries: 5
 
-  - name: Fail if 'Ansible has done its job' is not in the page content
-    fail:
-    when: "'Ansible has done its job' not in webpage.content"
+    - debug:
+        var: webpage.content
 
+    - name: Fail if 'Ansible has done its job' is not in the page content
+      fail:
+      when: "'Ansible has done its job' not in webpage.content"
