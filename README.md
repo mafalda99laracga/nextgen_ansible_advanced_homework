@@ -1,5 +1,4 @@
-Overview - Laboratory Environment
-==================================
+## Overview - Laboratory Environment
 
 Ansible Tower as a CI/CD tool for automating continuous deployment of an internal three-tier application on QA and production environments.
 
@@ -11,7 +10,7 @@ OPENTLC services for this automation: https://labs.opentlc.com/
 
 
 Requirements
-------------
+=============
 
 You must create a workflow in Ansible Tower (https://tower1.XXXX.example.opentlc.com) with following templates:
 
@@ -30,20 +29,56 @@ You must create a workflow in Ansible Tower (https://tower1.XXXX.example.opentlc
       10_Smoke test Prod env
 
 And you must create the following Inventories in Tower:
-	- Ansible Tower templates for OSP and AWS deployments:
-      scm_inventory (RHOSP workstation)
-        - workstation-XXXX.dynamic.opentlc.com
-      Prod Three tier inventory (AWS EC2 instances)
-        - frontend1.XXXX.internal
-        - app1.XXXX.internal
-        - app2.XXXX.internal
-        - appdb1.XXXX.internal
+- scm_inventory (RHOSP workstation)
+  - workstation-XXXX.dynamic.opentlc.com
+- Prod Three tier inventory (AWS EC2 instances)
+  - frontend1.XXXX.internal
+  - app1.XXXX.internal
+  - app2.XXXX.internal
+  - appdb1.XXXX.internal
+
+==== Ansible Tower Config
+
+* From the cloned repo run `site-config-tower.yml` playbook to create job templates and workflow template.
 
 
-Ansible Tower template - Role Execution
+.List of Playbooks
+[%header,cols=2*]
+|===
+| Files or dir | Purpose
+| app-tier | Install application server role
+| db-tier  | Install postgressql server for database role
+| lb-tier  | Install HA proxy role
+| base-config | Setup yum repo and base packages role
+| setup-workstation | Setup workstation, create network, ssh keypair, security group etc. role 
+| osp-servers | Provision OSP Instances role
+| osp-instance-delete | Delete OSP Instances role
+| osp-facts | Genrate in-memory inventory for OSP instances role
+| roles/config-tower/vars/main.yml | Very important file to review. All the variable values are set there. Please do not make any changes in the file
+| config-tower | Role to configure ansible tower job templates and workflow
+| aws_creds.yml | Fetch GUIDkey.pem from bastion of Three tier application env and create machine credential to connect to AWS instances
+| aws_provision.yml | Use `order_svc.sh` script to provision env
+| aws_status_check.yml | Check aws instances are up or not
+| site-3tier-app.yml | Playbook to deploy three tier app
+| site-install-isolated-node.yml | Playbook to install isolated node
+| site-config-tower.yml | Playbook to call role `config-tower`
+| site-osp-delete.yml | Playbook to call role
+| site-osp-instances.yml | Playbook to call role
+| site-setup-prereqs.yml | Playbook to call role
+| site-smoke-osp.yml | Playbook to test three tier app on OSP
+| site-smoketest-aws.yml | Playbook to test three tier app on AWS
+| grading-script.yml | Self grading script
+| roles/config-tower/tasks/ec2_dynamic.yml | For creating Dynamic inventory in Ansible tower. Use `AWS Access Key` for credential
+| roles/config-tower/tasks/job_template.yml | For creating job templates
+| roles/config-tower/tasks/pre-config-tower.yml | Any pre config tasks needed
+| roles/config-tower/tasks/workflow_template.yml | genrate workflow from `workflow.yml` file
+| roles/config-tower/tasks/post-config-tower.yml | any post config jobs
+|===
+
+Ansible Tower workflow - Roles Execution
 ----------------------------------------
 
-- In order to deploy this environment and make it available to execute training's Final Lab, it is necessary to follow the next steps: 
+- In order to deploy this environment and make it available to execute training's Final Lab, it is necessary to follow the next steps (as root) user:
 
 ```
 $ cd nextgen_ansible_advanced_homework
@@ -78,9 +113,19 @@ $ exit
 cat ~/.tower_cli.cfg
 ```
 - Playbook to create the job templates and workflow template. This launches "config-tower" Ansible role.
-Role to configure ansible tower job templates and workflow
+Role to configure ansible tower job templates and CICD workflow
 ```
-ansible-playbook site-config-tower.yml -e tower_GUID=${TOWER_GUID} -e osp_GUID=${OSP_GUID} -e osp_DOMAIN=${OSP_DOMAIN} -e opentlc_login=${OPENTLC_ID} -e path_to_opentlc_key=/root/.ssh/mykey.pem -e param_repo_base=${JQ_REPO_BASE} -e opentlc_password=${OPENTLC_PASSWORD} -e REGION_NAME=${REGION} -e EMAIL=${MAIL_ID} -e github_repo=${GITHUB_REPO} -vv
+ansible-playbook site-config-tower.yml \
+      -e tower_GUID=${TOWER_GUID} \
+      -e osp_GUID=${OSP_GUID} \
+      -e osp_DOMAIN=${OSP_DOMAIN} \
+      -e opentlc_login=${OPENTLC_ID} \
+      -e path_to_opentlc_key=/root/.ssh/mykey.pem \
+      -e param_repo_base=${JQ_REPO_BASE} \
+      -e opentlc_password=${OPENTLC_PASSWORD} \
+      -e REGION_NAME=${REGION} \
+      -e EMAIL=${MAIL_ID} \
+      -e github_repo=${GITHUB_REPO} -vv
 ```
 
 - All of the job templates and workflow are created for you. You could check first for example, you've a template "02_Provision QA Env" which launches "site-osp-instances.yml" Playbook against osp Instance Group.
@@ -114,9 +159,9 @@ export OS_CLOUD=openstack -> to test OS CLI
 ansible localhost -m os_auth
 ansible localhost -m os_user_info
 ```
-- NOTE. These previous OSP steps for workstation is launched with setup-workstation role using site-setup-prereqs.yaml Play from control machine.
+- NOTE. These previous OSP steps for workstation is launched with 'setup-workstation' role, using 'site-setup-prereqs.yaml' Playbook from control machine.
 
-- Finally, prepare your workstation for ssh (Lab 09_01)
+- Finally, prepare your workstation for ssh (Lab 09_01). NOTE: This is done by 'osp-servers' role
 ```
 cd ~/.ssh
 curl -o openstack.pem http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pem
@@ -137,18 +182,19 @@ EOF
     - base-config
     - app-tier
     - db-tier
-    - lb-tier -> NOTE. See 'main.SolucionAlterntiva' version Playbook with tower-cli. This is other solution for LoadBalancer for OSP and AWS - get TASK [osp-facts : Add host] as get facts "host_name" value is different in OSP than AWS environment. In first case (OSP), it works with 'inventory_hostname' and in the second case (AWS), it works with 'private_ip_address'.This play uses QA and PRO HA templates:
+    - lb-tier -> NOTE. See 'tasks/main.SolucionAlterntiva' version Playbook with tower-cli check. This is other solution for LoadBalancer for OSP and AWS - get TASK [osp-facts : 
+      Add host] as get facts "host_name" value is different in OSP than AWS environment. In first case (OSP), it works with 'inventory_hostname' and in the second case (AWS), it 
+      works with 'private_ip_address'.This play uses QA and PRO HA templates:
          - haproxy.cfg.qa.j2
          - haproxy.cfg.pro.j2
-         With this version, it's required to get tower-cli installed in workstation OSP to run 'tower-cli job list' command
+      With this version, it's required to get tower-cli installed in workstation OSP to run 'tower-cli job list' command
 
 - Then launch the last Ansible Tower template "05_Smoke test QA Env" for OSP, which runs Smoke tests, with "site-smoke-osp.yml" Play testing frontend and DB services.
 
 Provision PROD Environment
-----------------
+--------------------------
 
-- Before launch "aws_provision.yml" Play, you must run the following commands to use order_svc.sh script
-against CloudForms (opentlc)
+- Before launch "aws_provision.yml" Play, you must run the following commands to use order_svc.sh script against CloudForms Api (opentlc)
 ```
 $ mkdir ~/bin
 $ wget http://www.opentlc.com/download/ansible_bootcamp/scripts/common.sh
@@ -162,6 +208,11 @@ $ source credential.rc ;  ./order_svc.sh -y -c 'OPENTLC Automation' -i 'Ansible 
 ```
 - Then you can launch Ansible Tower "01_Provision Prod Env" and the other templates for PRO environment
 
+## Notes
+
+Connection to prod bastion instance didn't work for AWS user in **08_Prod SSH keys three tier app** template,
+To fix this, you could copy manually your ssh keys to bastion host and re-run the workflow from failed step or from start or
+you can modify the AWS Credential in Tower configuration changing to basic authentication with password received by email from Cloudforms.
 
 License
 -------
