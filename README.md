@@ -138,7 +138,9 @@ EOF
     - base-config
     - app-tier
     - db-tier
-    - lb-tier
+    - lb-tier -> NOTE. See 'main.SolucionAlterntiva' Playbook, it's other solution for LoadBalancer for OSP and AWS - get TASK [osp-facts : Add host] as get facts "host_name" value is different in OSP than AWS environment. In first case (OSP), it works with 'inventory_hostname' and in the second case (AWS), it works with 'private_ip_address'.This play uses QA and PRO HA templates:
+         - haproxy.cfg.qa.j2
+         - haproxy.cfg.pro.j2
 
 - Then launch the last Ansible Tower template "05_Smoke test QA Env" for OSP, which runs Smoke tests, with "site-smoke-osp.yml" Play testing frontend and DB services.
 
