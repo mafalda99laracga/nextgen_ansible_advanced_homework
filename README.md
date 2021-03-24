@@ -14,17 +14,17 @@ Requirements
 
 You must create a workflow in Ansible Tower (https://tower1.XXXX.example.opentlc.com) with following templates:
 - [Ansible Tower templates for RHOSP deployment](#Ansible-Tower-templates-for-RHOSP-deployment)
-	      00_Homework Assignment (SCM update - project)
-	      02_Provision QA Env
-	      04_3tier app deployment on QA Env
-	      05_Smoke test QA Env
+  - 00_Homework Assignment (SCM update - project)
+  - 02_Provision QA Env
+  - 04_3tier app deployment on QA Env
+  - 05_Smoke test QA Env     
 - [Ansible Tower templates for AWS deployment](#Ansible-Tower-templates-for-AWS-deployment)
-	      01_Provision Prod Env
-	      03_06_Prod Three tier inventory source (inventory source)
-	      07_Prod Check the status of AWS instances 
-	      08_Prod SSH keys three tier app 
-	      09_3 tier app on Prod 
-	      10_Smoke test Prod env
+  - 01_Provision Prod Env
+  - 03_06_Prod Three tier inventory source (inventory source)
+  - 07_Prod Check the status of AWS instances 
+  - 08_Prod SSH keys three tier app 
+  - 09_3 tier app on Prod 
+  - 10_Smoke test Prod env
 
 And you must create the following Inventories in Tower:
 - scm_inventory (RHOSP workstation)
