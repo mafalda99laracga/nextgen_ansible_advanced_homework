@@ -1,4 +1,4 @@
-## Overview - Laboratory Environment
+# Overview - Laboratory Environment
 
 Ansible Tower as a CI/CD tool for automating continuous deployment of an internal three-tier application on QA and production environments.
 
