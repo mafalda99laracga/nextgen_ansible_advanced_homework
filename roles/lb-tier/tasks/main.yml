@@ -18,7 +18,7 @@
     dest: "{{ lb_tier_haproxy_config_file_path }}"
   notify:
     - restart haproxy
-  when: "{{ current_env_qa }}" > 0  
+  when: "{{ current_env_qa | int }}" > 0  
   # if it doesn't return values then it's running prod job_template 
 
 - name: Check Job_Template PRO current running
@@ -32,7 +32,7 @@
     dest: "{{ lb_tier_haproxy_config_file_path }}"
   notify:
     - restart haproxy
-  when: "{{ current_env_pro }}" > 0
+  when: "{{ current_env_pro | int }}" > 0
   # if it doesn't return values then it's running qa job_template
 
 - name: Start and enable haproxy service
