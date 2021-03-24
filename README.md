@@ -21,7 +21,6 @@ You must create a workflow in Ansible Tower (https://tower1.XXXX.example.opentlc
       04_3tier app deployment on QA Env
       05_Smoke test QA Env
       
-
 	- Ansible Tower templates for AWS deployment:
       01_Provision Prod Env
       03_06_Prod Three tier inventory source (inventory source)
@@ -39,7 +38,6 @@ And you must create the following Inventories in Tower:
         - app1.XXXX.internal
         - app2.XXXX.internal
         - appdb1.XXXX.internal
-
 
 
 Ansible Tower template - Role Execution
@@ -117,6 +115,7 @@ ansible localhost -m os_auth
 ansible localhost -m os_user_info
 ```
 - NOTE. These previous OSP steps for workstation is launched with setup-workstation role using site-setup-prereqs.yaml Play from control machine.
+
 - Finally, prepare your workstation for ssh (Lab 09_01)
 ```
 cd ~/.ssh
