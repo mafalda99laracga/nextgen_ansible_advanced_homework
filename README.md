@@ -72,7 +72,6 @@ Documentation is part of each role.
 | osp-servers         | Provision OSP Instances role                                             |
 | osp-instance-delete | Delete OSP Instances role                                                |
 | osp-facts           | Generate in-memory inventory for OSP instances role                      |
-| tower-cli-setup     | Install tower-cli and create config file                                 |
 | config-tower        | Role to configure ansible tower job templates and workflow               |
 
 Ansible Tower workflow - Roles Execution
